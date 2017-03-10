@@ -1,0 +1,120 @@
+Design test cases for a storage array. The array has the following functionalities: 
+，        Create one or multiple LUN¨s.
+，        Resize (expand) a LUN.
+，        Export a LUN to a host.
+，        Un-export a LUN.
+，        Remove an un-exported LUNs.
+，        Retrieve the information (size, export) of a LUN.
+，        Concurrent requests is supported.
+，        Performance is not impacted no matter how many LUN¨s are created and exported.
+
+
+TC01: Create one or multiple LUNs
+Objective: One or multiple LUNs can be created successfully
+Setup: UI , CLI
+Storage platform: Storage Version
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Go to LUN creation page or go to the project folder with CLI;
+                2. Add LUN with LUN name in right/wrong format;
+                3. Try LUN size (from 1G to as large as possible);
+                4. Choose target group/initiator groups;
+                5. Choose/Not choose the attribute (such as thin provision);
+                6. Check if LUNs can be listed.
+Expected results:
+                LUN creation page can be opened; Wrong format of LUN name/out of space size will be warned; 
+               LUNs can be listed with right name,size and attributes.
+
+TC02: Resize (expand) a LUN
+Objective: LUN size can be modified successfully
+Setup: UI , CLI
+Storage platform: Storage Version
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Select a LUN and go to edition page or use one command with options;
+                2. Modify the size of this LUN in different size;
+                3. Check the LUN list.
+Expected results:
+               LUNs can be listed with right name,size and attributes.
+
+TC03: Export a LUN to a host
+Objective: LUN can be exported to a host
+Setup: UI , CLI
+Storage platform: Storage Version
+Host platform: Linux/Unix/Windows
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Select a LUN  or use one command with options;
+                2. Attach it to a host;
+                3. Try to attach to non-existing host;
+                4. Check on the host and LUN's configuration.
+Expected results:
+               LUNs can be exported successfully and host can see the LUN with right name/size.
+               Invalid hosts can be warnning
+
+TC04: un-export a LUN
+Objective: LUN can be un-exported from a host
+Setup: UI , CLI
+Storage platform: Storage Version
+Host platform: Linux/Unix/Windows
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Select a LUN  or use one command with options;
+                2. Dis-attach it from a host;
+                3. Try to un-export it when there is data flow;
+                4. Check on the host and LUN's configuration.
+Expected results:
+               LUNs can be un-exported successfully and host can't see any LUNs or the warning message should be shown during the LUN is being used.
+
+TC05: Remove an un-exported LUNs
+Objective: LUN can be un-exported from a host
+Setup: UI , CLI
+Storage platform: Storage Version
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Select a LUN  or use one command with options;
+                2. Dis-attach it to a host;
+                3. Check on the host and LUN's configuration.
+Expected results:
+               LUNs can be exported successfully and host can see the LUN with right name/size.
+
+TC06:  Retrieve the information (size, export) of a LUN
+Objective:Retrieve the information of a LUN
+Setup: UI , CLI
+Storage platform: Storage Version
+Host platform: Linux/Unix/Windows
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Check the Select a LUN  or use one command with options;
+                2. Take Retrieve action by size/export info;
+                3. Check the result.
+Expected results:
+               Retrieving the information of a LUN can be successfully .
+
+TC07:   Concurrent requests is supported
+Objective: Verity that concurrent requests is supported
+Setup: UI , CLI
+Storage platform: Storage Version
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Create: try to create multiple LUNs at same time or with the same name on different platforms;
+                2. Resize: try to resize multiple LUNs at same time on different platforms ;
+                3. Export: try to export LUNs at same time on different platforms ;
+                4. Un-export: try to un-export LUNs at same time on different platforms ;
+                5. Delete: try to delete LUNs at same time on different platforms ;
+                6. Check the result.
+Expected results:
+             All concurrent requests can be supported without any error. 
+             For the same operation on one LUN, only one of the task will succeed.
+
+TC08:   Performance is not impacted no matter how many LUN¨s are created and exported
+Objective: Verity that performance is not impacted when load is heavy
+Tools : Loadrunner or curl_loader(for Linux)
+Setup: UI , CLI
+Storage platform: Storage Version
+Specail configuration: iSCSI, FC configuration
+Procedures:
+                1. Using  tool to simulate multi-threading to create/export LUNs;
+                2. Check the performance of tool
+ Expected results:
+               Performance should NOT be impacted heavily.
